@@ -1,0 +1,189 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+#app {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: #333;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+main {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+}
+
+#board-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#board {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    padding: 20px;
+    background-color: #8B7355;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Rack styling: centered below the one-line board */
+#rack {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 16px;
+    /* show the rack/holder background image */
+    background-image: url("../graphics_data/scrabble-tile-holder-406774_640.png");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: contain;
+    /* ensure the container is tall enough for the image to be visible */
+    min-height: 120px;
+    padding-top: 12px;
+    background-color: #d6c6b3; /* subtle fallback color */
+}
+
+
+.board-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-width: 50px;
+    min-height: 50px;
+}
+
+.board-tile img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    cursor: grab;
+}
+
+.board-tile img:active {
+    cursor: grabbing;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 250px;
+}
+
+#reset-button {
+    padding: 12px 20px;
+    font-size: 1.1em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#reset-button:hover {
+    background-color: #45a049;
+}
+
+#reset-button:active {
+    background-color: #3d8b40;
+}
+
+#scoreboard {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#scoreboard h2 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+}
+
+#scores p {
+    padding: 8px 0;
+    font-size: 1.1em;
+    color: #555;
+}
+
+#scores span {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+/* Tile styles for draggable pieces */
+.tile {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    background: linear-gradient(#fff,#f1e7d6);
+    border: 2px solid #6b4f3b;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-weight: 700;
+    font-size: 20px;
+    color: #2b1f16;
+    cursor: grab;
+}
+.tile:active { cursor: grabbing; }
+.tile .value {
+    position: absolute;
+    right: 4px;
+    bottom: 2px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.board-cell.cell-hover { outline: 3px dashed rgba(255,200,0,0.9); border-radius: 4px; }
+.rack-hover { outline: 3px dashed rgba(100,200,255,0.9); }
+
+.tile.placed { box-shadow: 0 1px 2px rgba(0,0,0,0.3) inset; }
+
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    #controls {
+        min-width: 100%;
+    }
+
+    #board {
+        flex-wrap: wrap;
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+}

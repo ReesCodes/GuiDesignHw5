@@ -1,0 +1,38 @@
+{
+    "id": "onelineboard",
+    "name": "One Line Board",
+    "rows": 1,
+    "columns": 15,
+    "board": {
+        "image": "graphics_data/Scrabble_Board_OneLine.png",
+        "width": 1129,
+        "height": 80,
+        "border_width": [7,6,7,6],
+        "cell_size": [71,67]
+
+    },
+    "cell_types": {
+        "empty": {"tileScoreMultiplier": 1, "wordScoreMultiplier": 1},
+        "double-letter-score": {"tileScoreMultiplier": 2, "wordScoreMultiplier": 1},
+        "double-word-score": {"tileScoreMultiplier": 1, "wordScoreMultiplier": 2}
+    },
+    "cells":
+    {"rows":[[
+        {"cell_number": 0,  "tile": null, "imageLocation":[6,7,66,67],  "type": "empty"},
+        {"cell_number": 1,  "tile": null, "imageLocation":[78,7,71,67], "type": "empty"},
+        {"cell_number": 2,  "tile": null, "imageLocation":[155,7,69,67], "type": "double-word-score"},
+        {"cell_number": 3,  "tile": null, "imageLocation":[230,7,69,67], "type": "empty"},
+        {"cell_number": 4,  "tile": null, "imageLocation":[305,7,67,67], "type": "empty"},
+        {"cell_number": 5,  "tile": null, "imageLocation":[378,7,70,67], "type": "empty"},
+        {"cell_number": 6,  "tile": null, "imageLocation":[454,7,66,67], "type": "double-letter-score"},
+        {"cell_number": 7,  "tile": null, "imageLocation":[526,7,70,67], "type": "empty"},
+        {"cell_number": 8,  "tile": null, "imageLocation":[602,7,68,67], "type": "double-letter-score"},
+        {"cell_number": 9,  "tile": null, "imageLocation":[676,7,69,67], "type": "empty"},
+        {"cell_number": 10, "tile": null, "imageLocation":[751,7,69,67], "type": "empty"},
+        {"cell_number": 11, "tile": null, "imageLocation":[826,7,71,67], "type": "empty"},
+        {"cell_number": 12, "tile": null, "imageLocation":[903,7,69,67], "type": "double-word-score"},
+        {"cell_number": 13, "tile": null, "imageLocation":[978,7,70,67], "type": "empty"},
+        {"cell_number": 14, "tile": null, "imageLocation":[1054,7,68,67], "type": "empty"}
+        ]]
+    }
+}

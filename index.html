@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrable Sim</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script defer src="js/main.js"></script>
+
+</head>
+
+<body>
+
+    <div id="app">
+        <header>
+            <h1>Scrable Sim</h1>
+        </header>
+        <main id="main-content">
+            <div id="board-container">
+                <div id="board">
+                    <img src="graphics_data/Scrabble_Board_OneLine.png" alt="Scrabble Board">
+                </div>
+                <div id="rack" >    
+                </div>
+            </div>
+            <div id="controls">
+                <button id="reset-button">Reset Game</button>
+                <button id="submit-word-button">Submit Word</button>
+                <div id="scoreboard">
+                    <h2>Scoreboard</h2>
+                    <div id="score">
+                    </div>
+                    <div id="submitted-words">
+                        <h3>Submitted Words</h3>
+                        <ul id="submitted-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
