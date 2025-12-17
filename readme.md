@@ -2,7 +2,9 @@
 
 [GitRepo](https://github.com/ReesCodes/GuiDesignHw5)
 
-[DeployMent]()
+## Deployment
+
+Live demo [GitHub Pages](https://reescodes.github.io/GuiDesignHw5/) 
 
 
 ## Sources
