@@ -23,4 +23,3 @@
 - Rack refilling from the bag after each play
 - Input validation and clear error messages for illegal moves
 - End-of-game detection when no tiles remain or no legal plays
-- Basic CLI help and commands (play, pass, quit)

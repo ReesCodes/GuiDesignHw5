@@ -145,7 +145,10 @@ $(function () {
 
 		// make rack droppable so tiles can be returned
 		rackContainer.droppable({
-			accept: '.tile.placed',
+			accept: function(draggable) {
+				// accept tiles that are placed but not locked
+				return $(draggable).hasClass('placed') && !$(draggable).hasClass('locked');
+			},
 			hoverClass: 'rack-hover',
 			drop: function (event, ui) {
 				const tile = ui.draggable;
@@ -168,7 +171,92 @@ $(function () {
 		// keep draggable enabled so user can drag placed tiles back to the rack
 
 		updateScore();
+		updatePreviewScore();
 	}
+
+	// Preview score considers placed but not locked tiles
+	function updatePreviewScore() {
+		const formed = getFormedWord();
+		const preview = calculateWordScore(formed.cells);
+		$('#preview-score').text(preview);
+	}
+
+	// Parse and apply a textual placement command like "7 HELLO" (0-based position or 1-based?)
+	function applyPlacementCommand(cmd) {
+		// simple format: <pos> <word>
+		const parts = (''+cmd).trim().split(/\s+/);
+		if (parts.length < 2) return { ok: false, msg: 'Invalid command format' };
+		let pos = parseInt(parts[0], 10);
+		if (isNaN(pos)) return { ok: false, msg: 'Invalid start position' };
+		// assume 0-based positions in our JSON; if users enter 1-based, convert if needed
+		// If pos seems 1-based (e.g. > columns-1), try converting
+		if (pos > (boardData.columns - 1)) pos = pos - 1;
+		const word = parts.slice(1).join('').toUpperCase();
+		if (!word) return { ok: false, msg: 'No word provided' };
+
+		// check contiguous fit
+		if (pos < 0 || pos + word.length > boardData.columns) return { ok: false, msg: 'Word does not fit on board at that position' };
+
+		// ensure target cells are empty (no locked tiles)
+		const targetCells = [];
+		for (let i = 0; i < word.length; i++) {
+			const cellIdx = pos + i;
+			const $cell = $(`#board .board-cell[data-cell-number='${cellIdx}']`);
+			if (!$cell.length) return { ok: false, msg: `Cell ${cellIdx} not found` };
+			if ($cell.find('.tile.locked').length) return { ok: false, msg: 'Target cells contain locked tiles' };
+			targetCells.push($cell);
+		}
+
+		// check rack has required letters (account for duplicates)
+		const rackTiles = {};
+		$('#board-container #rack .tile').each(function () {
+			const L = $(this).attr('data-letter') || '';
+			rackTiles[L] = (rackTiles[L] || 0) + 1;
+		});
+
+		for (let i = 0; i < word.length; i++) {
+			const ch = word[i];
+			if (!rackTiles[ch] || rackTiles[ch] <= 0) return { ok: false, msg: 'Rack does not contain required tiles' };
+			rackTiles[ch]--;
+		}
+
+		// place tiles from rack into target cells
+		for (let i = 0; i < word.length; i++) {
+			const ch = word[i];
+			// take first matching tile from rack
+			const $tile = $('#board-container #rack .tile').filter(function () { return $(this).attr('data-letter') === ch && !$(this).hasClass('locked'); }).first();
+			if (!$tile.length) return { ok: false, msg: 'Unexpected missing tile during placement' };
+			placeTileInCell($tile, targetCells[i]);
+		}
+
+		return { ok: true, msg: 'Placed' };
+	}
+
+	// Fill rack up to 7 tiles
+	function refillRack() {
+		const tileHolder = $('#board-container #rack .tile-container').first();
+		if (!tileHolder.length) return;
+		while (tileHolder.find('.tile').length < 7 && bag.length > 0) {
+			const next = bag.pop();
+			const el = createTileElement(next);
+			tileHolder.append(el);
+		}
+	}
+
+	// Place command button handler
+	$(document).on('click', '#place-command-button', function () {
+		$('#message').text('');
+		const cmd = $('#move-input').val() || '';
+		const res = applyPlacementCommand(cmd);
+		if (!res.ok) {
+			$('#message').text(res.msg);
+			return;
+		}
+		// success: show preview score then allow user to submit which will lock and add score
+		updatePreviewScore();
+		// auto-refill rack after placement so user sees new tiles; DO NOT auto-lock or submit
+		refillRack();
+	});
 
 	function returnTileToRack(tile, rack) {
 		// enable dragging again and remove placed class
